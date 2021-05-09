@@ -1,4 +1,4 @@
 # StockTrade
-A webapp that simulates stock trading\n
-Tomcat v9\n
+A webapp that simulates stock trading<br>
+Tomcat v9<br>
 Please change SQL password to your own MySQL password
