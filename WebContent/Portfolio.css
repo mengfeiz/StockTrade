@@ -1,0 +1,124 @@
+@charset "UTF-8";
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #635be9;
+}
+li {
+	float: left;
+	font-weight: bold;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+.active {
+	border: 2px solid #FFFFFF;
+	border-radius: 10px;
+	margin: 2;
+}
+.subtitle {
+	font: 15px system-ui;
+	font-weight: bold;
+	line-height: 1.4;
+	display: inline;
+}
+#cashBalance{
+	display: inline;
+}
+#totalValue{
+	display: inline;
+}
+#title{
+	font: 30px system-ui;
+	font-weight: bold;
+	line-height: 2;
+}
+#container{
+	width:60%;
+	margin-left: 20%;
+}
+#tickerContainer{
+	border: gray;
+    border-style: solid;
+    border-width: 1px;
+}
+#upper{
+	border: gray;
+    border-style: solid;
+    border-width: 1px;
+    background: lightgray;
+    padding: 10px;
+}
+#name{
+	color:gray;
+}
+#middle{
+	padding: 15px;
+}
+#midLeft{
+	width: 45%;
+    display: inline-block;
+    padding: 10px;
+}
+#downChange{
+	color:red;
+}
+#Quantity{
+	width: 40px;
+}
+#upChange{
+	color:green;
+}
+#totalValue{
+	background: yellow;
+}
+#bottom{
+	text-align: center;
+	border: gray;
+    border-style: solid;
+    border-width: 1px;
+    background: lightgray;
+    padding: 10px;
+    line-height: 30px;
+}
+
+#midRight{
+	width: 45%;
+    display: inline-block;
+    padding: 10px;
+    float: right;
+}
+#ll{
+	width: 50%;
+    display: inline-block;
+}
+#lr{
+	width: 50%;
+    display: inline-block;
+    text-align: right;
+}
+#rl{
+	width: 50%;
+    display: inline-block;
+}
+#rr{
+	width: 50%;
+    display: inline-block;
+    text-align: right;
+}
+#ticker{
+	font-size: 20px;
+    font-weight: bold;
+	display: inline;
+}
+#name{
+	display: inline;
+	color: slategray;
+}

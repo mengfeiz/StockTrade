@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script src="coockie.js"></script>
+  <script>
+  function checkPasswordMatch() {
+	    var password = document.getElementById("PasswordNew").value;
+	    var confirmPassword = document.getElementById("Password2New").value;
+	    if (password != confirmPassword)
+	    	document.getElementById("hidden2").innerHTML = "<div>Passwords do not match!</div>";
+	    else
+	    	document.getElementById("hidden2").innerHTML = "<div>Passwords match.</div>";
+	}
+  function signInRes() {
+ 	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "signIn", true);
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	var params= "Username=" + document.getElementById("Username").value + "&Password=" + document.getElementById("Password").value;
+	xhttp.send(params);
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+ 			var res = this.responseText;
+			console.log(res);
+  			if(res.localeCompare("exist111") === 0){
+  				setCookie("Username",document.getElementById("Username").value,30); 
+				window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/afterLogHome.html";
+			}else{
+				document.getElementById("hidden").innerHTML = "<div>Username or password mismatch</div>";
+			}
+ 		}
+	}
+	return false;
+    }
+   function createAccount() {
+ 	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "signUp", true);
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	//signUp?Email=mengfeiz%40usc.edu&Username=fiona&Password=123&Password2=123&Check=read
+	var params= "EmailNew=" + document.getElementById("EmailNew").value +"&UsernameNew=" + document.getElementById("UsernameNew").value 
+	+ "&PasswordNew=" + document.getElementById("PasswordNew").value+"&Password2New=" + document.getElementById("Password2New").value+"&Check=" + document.getElementById("Check").value;
+	xhttp.send(params);
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+ 			var res = this.responseText;
+			console.log(res);
+  			if(res.localeCompare("Success") === 0){
+  				setCookie("Username",document.getElementById("UsernameNew").value,30); 
+				window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/afterLogHome.html";
+			}else{
+				document.getElementById("hidden2").innerHTML = "<div>User already exist, please sign in.</div>";
+			}
+ 		}
+	}
+	return false;
+    }
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '470393826914-ai8irvjunaenat49kr5ra50ri18oqrif.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
+
+  function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+              googleUser.getBasicProfile().getEmail();
+          //send email to backend
+          var Email = googleUser.getBasicProfile().getEmail();
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "signIn", true);
+			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			var params= "Email=" + Email;
+			xhttp.send(params);
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var res = this.responseText;
+					console.log(res);
+			 		if(res.localeCompare("don't exist") === 0){
+			 			document.getElementById("hidden").innerHTML = "<div>Google email account didn't exist, please sign up!</div>";
+					}else{
+						setCookie("Username",res,30); 
+						window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/afterLogHome.html";
+					}
+				}
+			}
+			return false;
+          window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/afterLogHome.html";
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+  //res();
+  </script>
+<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	<ul>
+		<li><a href="HomePage.html">SalStock</a></li>
+		<li style="float: right"><a class="active" href="index.html">Login/Sign Up</a></li>
+		<li style="float: right"><a href="HomePage.html">Home/Search</a></li>
+	</ul>
+
+	<section class="container">
+		<div id="signInFormOuter" class="form">
+			<div id="login">
+				<h1>Login</h1>
+				<form name="signinForm" action="signIn" method="post" onSubmit="return signInRes()">
+					<label for = "Username"> Username <span class="req"></span></label><div id = hidden></div><br>
+					<input id="Username" name="Username" type="text" required autocomplete="on" /><br><br/>
+					<label for = "Password"> Password <span class="req"></span></label><br>
+					<input id="Password" name="Password" type="password" required autocomplete="on" />
+					<br><br/>
+					<button type="submit" id="signInButton" class="signButton"/></button>
+					<!-- onSubmit="return res()" -->
+					<br> <br />
+					<div id="customBtn" class="signButton"></div>
+					<div id="name"></div>
+					<script>
+						startApp();
+					</script>
+					<script>
+						$('#signinButton').click(function() {
+							// signInCallback defined in step 6.
+							auth2.grantOfflineAccess().then(signInCallback);
+						});
+					</script>
+				</form>
+			</div>
+		</div>
+	
+		<div class="signup">
+			<h1>Sign Up</h1>
+			<form name="signUpForm" action="signUp" method="POST" onSubmit="return createAccount()">
+				<div class="top-row">
+					<div class="field-wrap">
+						<label> Email <span class="req"></span></label> <br> <br />
+						<input id="EmailNew" name="EmailNew" type="Email" required autocomplete="on" />
+					</div><br>
+					<div class="field-wrap">
+						<label> Username <span class="req"></span></label> <br> <br /> 
+						<input type="text" id="UsernameNew" name="UsernameNew" required autocomplete="on" />
+					</div><br>
+					<div class="field-wrap">
+						<label> Password <span class="req"></span></label> <br> <br /> 
+						<input type="password" id="PasswordNew" name="PasswordNew" required autocomplete="on" /><!-- onkeyup='check();' -->
+					</div><br>
+					<div class="field-wrap">
+						<label> Confirmed Password <span class="req"></span></label> <br> <br/> 
+						<!-- 需要double check** -->
+						<input type="password" id="Password2New" name="Password2New" required autocomplete="on" onChange="checkPasswordMatch();"/><!-- onkeyup='check();' -->
+					</div><br><span id='message'></span><div id ='hidden2'></div>
+					<input type="checkbox" id="Check"  name="Check" value="read" REQUIRED> 
+					<label for="check"> I have read and agree to all terms and conditions of SalEats</label> <br>
+					<button type="submit" id="signUpButton" class="signButton"/></button>
+				</div>
+			</form>
+		</div>
+	</section>
+</body>
+</html>

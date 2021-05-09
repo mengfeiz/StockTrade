@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+#customBtn {
+	display: inline-block;
+	background-color: #69a0f0;
+	color: white;
+	width: 400px;
+	border-radius: 5px;
+	border: thin solid #888;
+	box-shadow: 1px 1px 1px grey;
+	white-space: nowrap;
+}
+h1{
+	color: gray;
+}
+#customBtn {
+	background:url(signInGoogleImg.png) no-repeat top center;
+	background-size: cover;
+	width: 334px;
+}
+#signInButton{
+	background:url(signInImg.png) no-repeat top center;
+	background-size: cover;
+}
+#signUpButton{
+	background:url(createAccountImg.png) no-repeat top center;
+	background-size: cover;
+}
+
+input#Username{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#UsernameNew{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#Password{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#PasswordNew{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#Email{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#EmailNew{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#Password2{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+input#Password2New{
+	width: 400px;
+	display: inline-block;
+	line-height: 2em;
+}
+label{
+	color: gray;
+	
+}
+span.label {
+	font-family: serif;
+	font-weight: normal;
+}
+
+span.icon {
+	background: url('g-normal.png') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+    height: 42px;
+}
+
+span.buttonText {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: 'Roboto', sans-serif;
+	line-height: 20px; 
+	vertical-align: middle;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #635be9;
+}
+
+li {
+	float: left;
+	font-weight: bold;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+.active {
+	border: 2px solid #FFFFFF;
+	border-radius: 10px;
+	margin: 2;
+}
+/* Pattern styles */
+.container {
+	display: table;
+	width: 100%;
+}
+
+.form {
+	position: absolute;
+	left: 15%;
+	width: 50%;
+}
+
+.signup {
+	position: absolute;
+	right: 0px;
+	width: 50%;
+}
+
+.signButton {
+	box-shadow: 1px 1px 1px grey;
+	white-space: nowrap;
+	background-position: 8px 8px;
+    background-repeat: no-repeat;
+	border: thin solid #888;
+	width: 400px;
+	color: white;
+	padding: 20px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 5px;
+}

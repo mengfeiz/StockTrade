@@ -1,0 +1,165 @@
+@charset "UTF-8";
+#searchMode{
+	width: 70%;
+	left: 15%;
+	position: absolute;
+}
+#smallred{
+	color: red;
+	font: 20px system-ui;
+	display: inline;
+}
+#smallgreen{
+	color: green;
+	font: 20px system-ui;
+	display: inline;
+}
+#star{
+	font-size: 40px;
+}
+i#arrowUp.fa.fa-caret-up{
+	font-size: 20px;
+	color:green;
+}
+i#arrowDown.fa.fa-caret-down{
+	font-size: 20px;
+	color:red;
+}
+h1{
+	font: 50px system-ui;
+	text-align: center;
+	font-weight: bold;
+}
+form[name="search"] {
+  background-color: none;
+  position: relative;
+  width: 300px;
+  height: 44px;
+  border: 1.5px solid #635be9;
+  border-radius: 20px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  margin: 60px 40%;
+}
+form[name="Quantity"] {
+  line-height: 1.5;
+}
+
+button[name="Buy"]{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  display: inline-block;
+  font-size: 12px;
+}
+input[name="ticker"] {
+  all: unset;
+  font: 16px system-ui;
+  height: 100%;
+  width: 100%;
+  padding: 6px 10px;
+  color: grey;
+} 
+input#Quantity {
+   width: 50px;
+    line-height: 1.5;
+} 
+
+::placeholder {
+  color: #fff;
+  opacity: 0.7; 
+  color: black;
+}
+
+svg {
+  color: #635be9;
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+}
+
+button[name="search"] {
+  all: unset;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #635be9;
+}
+
+li {
+	float: left;
+	font-weight: bold;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+.checked{
+    color:yellow;
+}
+.unchecked{
+	color:black;
+    border-color:default;
+}
+form#favForm{
+	display:inline;
+}
+#ticker2{
+	line-height: 1.5;
+	font: 35px system-ui;
+	text-align: left;
+	font-weight: bold;
+	display: inline-block;
+}
+#name{
+	line-height: 1.5;
+	font: 30px system-ui;
+	text-align: left;
+	font-weight: bold;
+}
+#exchangeCode{
+	line-height: 1.5;
+	font: 15px system-ui;
+	text-align: left;
+	font-weight: bold;
+}
+button.fav{
+	display: inline-block;
+}
+.topRight{
+	vertical-align: top;
+	text-align: right;
+}
+.active {
+	border: 2px solid #FFFFFF;
+	border-radius: 10px;
+	margin: 2;
+}
+.gray { 
+	color: grey;
+}
+.bigred{
+	color: red;
+	font: 30px system-ui;
+}
+.biggreen{
+	color: green;
+	font: 30px system-ui;
+}

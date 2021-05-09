@@ -1,0 +1,106 @@
+@charset "UTF-8";
+h1{
+	font: 40px system-ui;
+	text-align: center;
+	font-weight: bold;
+}
+#block{
+	width: 70%;
+	left: 15%;
+	position: absolute;
+}
+#ticker2{
+	font: 50px system-ui;
+	text-align: center;
+	font-weight: bold;
+	line-height: 80px;
+}
+#name{
+	text-align:center;
+	line-height: 60px;
+	font:30px system-ui;
+}
+#exchangeCode{
+	text-align:center;
+	line-height: 50px;
+}
+form {
+  background-color: none;
+  position: relative;
+  width: 300px;
+  height: 44px;
+  border: 1.5px solid #635be9;
+  border-radius: 20px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  margin: 60px 40%;
+}
+
+input#ticker {
+  all: unset;
+  font: 16px system-ui;
+  height: 100%;
+  width: 100%;
+  padding: 6px 10px;
+  color: grey;
+}
+query {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  color: grey;
+}
+
+::placeholder {
+  color: #fff;
+  opacity: 0.7; 
+  color: black;
+}
+
+svg {
+  color: #635be9;
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #635be9;
+}
+
+li {
+	float: left;
+	font-weight: bold;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+.topRight{
+	text-align: right;
+}
+.active {
+	border: 2px solid #FFFFFF;
+	border-radius: 10px;
+	margin: 2;
+}
+.gray { 
+	color: gray; 
+}

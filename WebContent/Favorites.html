@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="Favorites.css">
+	<script src="coockie.js"></script>
+	<script>
+	var socket;
+	function revFav(i){
+		console.log(i);
+		socket.send(i);
+		window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/Favorites.html";
+		return false;
+	}
+	function directPage(){
+		window.location = "http://localhost:8080/mengfei_CSCI201L_Assignment4/afterLogHome.html";
+	}
+	function connectToServer() {
+		var innerHTML = "";
+		socket = new WebSocket("ws://localhost:8080/mengfei_CSCI201L_Assignment4/fav"); 
+		socket.onopen = function(event) {
+			document.getElementById("cardContainer").innerHTML = "Please wait for data to be loaded...<br />";
+			var userName=getCookie("Username");
+			socket.send("connected,"+userName);
+		}
+		socket.onmessage = function(event) {
+			console.log(event.data);
+			if(event.data === "}"){
+				alert("Currently you don't have any stock in your favorites.")
+			}else{
+				var myArr = JSON.parse(event.data);
+				var id = Object.keys(myArr);
+				for (var i=0; i < id.length;i++) {
+					innerHTML += "<div id='border' ><div id='left'>";//onclick='return directPage()'
+					var ticker = id[i];
+					innerHTML += "<div id='ticker'>"+ticker+"</div><br>";
+					var info = myArr[ticker];
+					var name = info.name;
+					innerHTML += "<div id='name'>"+name+"</div></div>";
+					var last = info.last;
+					var prevClose = info.prevClose;
+					var change = last - prevClose;
+					var color;
+					if(change > 0)	color = "green";
+					else if(change == 0)	color = "black";
+					else color = "red";
+					innerHTML += "<div id='right' class='"+color+"'><form id='del' >";//action= 'delFav' onsubmit = 'return revFav()' method='get'
+					innerHTML += "<span jsname='ZnuYW' class='XCKyNd' jsaction='ornU0b'  tabindex='0' role='button' onclick = 'return revFav(\""+ticker+"\")'></span>";//type='submit' 
+					innerHTML += "<input type='hidden' name='myinput' value='"+ticker+"'/></form>";
+					innerHTML += "<br>";
+					innerHTML +="<div id='last'>"+last.toFixed(2)+"</div><br>";
+					var changePercentage = change * 100 / prevClose;
+					innerHTML += "<div id='changePercentage'>"+change.toFixed(2)+"("+changePercentage.toFixed(2)+")%"+"</div></div></div><br>";
+				}
+			}
+			document.getElementById("cardContainer").innerHTML = innerHTML;
+		}
+		socket.onclose = function(event) {
+			//document.getElementById("mychat").innerHTML += "Disconnected!"; 
+		}
+	}
+	</script>
+<title>Favorites Page</title>
+</head>
+<body onload="connectToServer()">
+	<ul>
+		<li><a href="afterLogHome.html">SalStock</a></li>
+		<li style="float: right"><a href="index.html">Logout</a></li>
+		<li style="float: right"><a href="Portfolio.html">Portfolio</a></li>
+		<li style="float: right"><a class="active" href="Favorites.html">Favorites</a></li>
+		<li style="float: right"><a href="afterLogHome.html">Home/Search</a></li>
+	</ul>
+	<div id = "container">
+		<div id="title">My Favorites</div>
+		<div id="cardContainer">
+		
+		</div>
+	</div>
+</body>
+</html>

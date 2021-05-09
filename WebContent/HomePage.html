@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<title>Search Page/Home Page</title>
+<link rel="stylesheet" type="text/css" href="HomePage.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script>
+      	function showStock() {
+      		var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "HomePage?ticker="+document.search.ticker.value+"&search=", true);
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var myObj = JSON.parse(this.responseText);
+					var ticker = myObj.ticker;
+					var name = myObj.name;
+					var exchangeCode = myObj.exchangeCode;
+					var startDate = myObj.startDate;
+					var description = myObj.description;
+ 					var high = myObj.high; 
+ 					var low = myObj.low; 
+ 					var open = myObj.open; 
+ 					var close = myObj.prevClose; 
+ 					var volume = myObj.volume; 
+ 					
+ 					var htmlString = "<div id='block'><div id='ticker2'>" + ticker + "</div>";
+ 					htmlString += "<div class='gray' id=name>" + name + "</div><br>";
+ 					htmlString += "<div id=exchangeCode>" + exchangeCode + "</div><br>";
+ 					htmlString += "<div class='gray' style=text-align:center>Summary</div>";
+ 					htmlString += "<hr style=\"height:2px;border-width:0;color:#635be9;background-color:#635be9\"><br>";
+ 					htmlString += "<p style=text-align:center> High Price: " + high + "<br>";
+ 					htmlString += " Low Price: " + low + "<br>";
+ 					htmlString += " Open Price: " + open + "<br>";
+ 					htmlString += " Close: " + close + "<br>";
+ 					htmlString += " Volumn: " + volume + "</p><br><br>";
+ 					htmlString += "<h3 style=text-align:center>Company's Description</h3><br>";
+ 					htmlString += "<p> Start Date: " + startDate + "</p><br>";
+ 					htmlString += description;
+ 					htmlString += "</div>";
+					document.getElementById("searchMode").innerHTML = htmlString;
+				}
+			}
+			xhttp.send();
+			return false;
+       	};
+     </script>
+</head>
+<body>
+	<ul>
+		<li><a href="HomePage.html">SalStock</a></li>
+		<li style="float: right"><a href="index.html">Login/SiguUp</a></li>
+		<li style="float: right"><a class="active" href="HomePage.html">Home/Search</a></li>
+	</ul>
+	<div id=searchMode>
+	<br><br/><br><br/>
+	<h1>STOCK SEARCH</h1>
+	<form name = "search" action= "HomePage" method="get" onSubmit="return showStock()">
+<!-- onSubmit="return showStock()" -->
+		<input type="text" id="ticker" name="ticker"
+			placeholder="Enter stock ticker"
+			aria-label="Search through site content">
+		<button type="submit" name="search">
+			<svg viewBox="0 0 1024 1024">
+				<path class="path1"
+					d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+		</button>
+	</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<title>afterLog Home Page</title>
+<link rel="stylesheet" type="text/css" href="afterLogHome.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="coockie.js"></script>
+	<script>
+		var ticker;
+		var Price;
+		var isOpen;
+		function buyStock(){
+			if(!isOpen){
+				alert("FAILED: Market closed - Purchase not possible");
+			}
+			var xhttp = new XMLHttpRequest();
+			var userName=getCookie("Username");
+			var param = "buyStock?ticker="+ticker;
+			param += "&Price="+Price;
+			param += "&Quantity="+document.Quantity.QuantityInput.value;
+			param += "&userName="+userName;
+			console.log(param);
+			xhttp.open("GET", param, true);
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var myObj = this.responseText;
+					alert(myObj);
+				}
+			}
+			xhttp.send();
+			return false;
+		}
+ 		function getFavRes(){
+ 			//change button
+            var data;
+			if (document.getElementById("star").className === "unchecked") {
+				//add to fav
+			  	document.getElementById("star").innerHTML = "<span  id='star' class='checked' role='button' type='submit' onclick='return getFavRes()'>&starf;</span>";
+			  	console.log(document.getElementById("favForm"));
+			  	alert("Added to Favorites");
+			  
+			}else {
+			  document.getElementById("star").innerHTML = "<span  id='star' class='unchecked' role='button' type='submit' onclick='return getFavRes()'>&#9734</span>";
+			  console.log(document.getElementById("favForm"));
+			  alert("Removed From Favorites");
+			  
+			}
+			
+			var xhttp = new XMLHttpRequest();
+			var param = "changeFav?myinput="+document.star.myinput.value;
+			var res = param.replace(",", "%2C");
+			res += "&userName="+document.star.userName.value;
+			xhttp.open("GET", res, true);
+			console.log(res);
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var myObj = this.responseText;
+					//document.getElementById("star").innerHTML = "<div>"+myObj+"</div>";
+				}
+			}
+			xhttp.send();
+			return false;
+		} 
+      	function showStock() {
+      		var xhttp = new XMLHttpRequest();
+      		var userName=getCookie("Username");
+			console.log("Coockie name is "+userName);
+      		var params = "afterLogHome?ticker="+document.search.ticker.value+"&userName="+userName+"&search=";
+			xhttp.open("GET", params, true);
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var myObj = JSON.parse(this.responseText);
+					ticker = myObj.ticker;
+					var name = myObj.name;
+					var exchangeCode = myObj.exchangeCode;
+					var isFav = myObj.isFav;
+ 					/* Last price, change, percent change, and date/time */
+ 					var last = myObj.last;
+ 					Price = myObj.askPrice;
+ 					var timestamp = myObj.timestamp;
+ 					var currentHour = new Date().getHours();
+ 					var currentMin = new Date().getMinutes();
+ 					var currentDay = new Date().getDay();
+ 					isOpen = ((currentHour>6 && currentHour<13) || (currentHour === 6 && currentMin>=30)) && currentDay >=1 && currentDay <=5;
+ 					timestamp = timestamp.replace('T',' ');
+ 					timestamp = timestamp.substring(0, 19);
+ 					var change = last - myObj.prevClose;
+ 					var changePercentage = change * 100 / myObj.prevClose;
+					var high = myObj.high; 
+ 					var low = myObj.low; 
+ 					var open = myObj.open; 
+ 					var close = myObj.prevClose; 
+ 					var volume = myObj.volume; 
+ 					var startDate = myObj.startDate;
+ 					var description = myObj.description;
+ 					
+ 					var htmlString = "<br><div style='width: 100%;' name='upper'><div name='upleft' style='width: 50%; height: 100px; float: left;'><div id=\"ticker2\">" + ticker + "</div>";
+ 					htmlString += "<form id='favForm' name='star' action= 'changeFav' onSubmit='return getFavRes()'>";
+ 					if(isFav.localeCompare("isFav") === 0){
+ 						htmlString += "<span  id='star' class='checked' role='button' type='submit' onclick='return getFavRes()'>&starf;</span>";
+ 						htmlString += "<input type='hidden' name='myinput' value='delFav,"+ticker+"' />";
+ 						htmlString += "<input type='hidden' name='userName' value='"+userName+"' />";
+ 					}else{
+ 						htmlString += "<span  id='star' class='unchecked' role='button' type='submit' onclick='return getFavRes()'>&#9734</span>"
+						htmlString += "<input type='hidden' name='myinput' value='addFav,"+ticker+"' />";
+ 						htmlString += "<input type='hidden' name='userName' value='"+userName+"' />";
+ 					}
+ 					htmlString += "</form><br>"
+ 					//htmlString +="<span class='fa fa-star unchecked'></span><br>";
+ 					htmlString += "<div id=\"name\" class=\"gray\">" + name + "</div><br>";
+ 					htmlString += "<div id=\"exchangeCode\">" + exchangeCode + "</div><br>";
+ 					htmlString += "<form name = \"Quantity\" method='get' onSubmit='return buyStock()' action='buyStock'> <label name = \"Quantity\">Quantity: </label>"+
+ 					"<input type=\"number\" id=\"Quantity\" name=\"QuantityInput\"><br>"+
+ 					"<button type=\"submit\" name=\"Buy\">Buy</button></form></div>";
+ 					if(change > 0){
+ 						htmlString += "<div class = topRight style='margin-left: 50%; height: 100px;'>"+
+ 	 					"<div class='biggreen'>"+last.toFixed(2)+"</div><br>";
+ 						htmlString += "<i id='arrowUp' class='fa fa-caret-up' aria-hidden='true'></i>";
+ 						htmlString +="<div id='smallgreen'>"+change.toFixed(2)+"("+changePercentage.toFixed(2)+")%"+"</div><br>"
+ 	 					+"<div>"+timestamp+"</div></div>";
+ 					}else{
+ 						htmlString += "<div class = topRight style='margin-left: 50%; height: 100px;'>"+
+ 	 					"<div class='bigred'>"+last.toFixed(2)+"</div><br>";
+ 						htmlString += "<i id='arrowDown' class='fa fa-caret-down' aria-hidden='true'></i>";
+ 						htmlString +="<div id='smallred'>"+change.toFixed(2)+"("+changePercentage.toFixed(2)+")%"+"</div><br>"
+ 	 					+"<div>"+timestamp+"</div></div>";
+ 					}
+ 					htmlString += "</div><br><br><br><br><br><br><br><div name='lowerpart'>";
+ 					if(isOpen){
+ 						htmlString += "<div><span style='background-color:lightgreen;position: absolute; left: 45%;'>Market is Open</span></div><br>"
+ 					}else{
+ 						htmlString += "<div><span style='background-color:pink;position: absolute; left: 45%;'>Market closed on "+timestamp+"</span></div><br>"
+ 					}
+ 					
+ 					htmlString += "<h4 class=\"gray\" style=text-align:center>Summary</h4>";
+ 					htmlString += "<hr style='height:2px;border-width:2;color:#635be9;background-color:#635be9'>";
+ 					htmlString += "<div id='info' style='width: 100%;'><div id='infoLeft' style='width: 20%; margin-left: 10%; float: left;'><p>";
+ 					htmlString += " High Price:<br>";
+ 					htmlString += " Low Price:<br>";
+ 					htmlString += " Open Price:<br>";
+ 					htmlString += " Close:<br>";
+ 					htmlString += " Volume:</p></div><div id='infoLeft2' style='width: 25%;margin-left: 0%;float: left;'><p>";
+ 					htmlString += high+"<br>";
+ 					htmlString += low+"<br>";
+ 					htmlString += open+"<br>";
+ 					htmlString += close+"<br>";
+ 					htmlString += volume+"<br></div>";
+ 					if(isOpen){
+ 						var mid = myObj.mid;
+ 						var askPrice = myObj.askPrice;
+ 						var askSize = myObj.askSize;
+ 						var bidPrice = myObj.bidPrice;
+ 						var bidSize = myObj.bidSize;
+ 						
+ 						htmlString += "<div id='infoRight' style='width: 20%; margin-left: 0%; float: left;'><p>";
+ 	 					htmlString += " Mid Price:<br>";
+ 	 					htmlString += " Ask Price:<br>";
+ 	 					htmlString += " Ask Size:<br>";
+ 	 					htmlString += " Bid Price:<br>";
+ 	 					htmlString += " Bid Size:</p></div><div id='inRight2' style='width: 20%;margin-left: 0%;float: left;'><p>";
+ 	 					htmlString += mid+"<br>";
+ 	 					htmlString += askPrice+"<br>";
+ 	 					htmlString += askSize+"<br>";
+ 	 					htmlString += bidPrice+"<br>";
+ 	 					htmlString += bidSize+"<br></div>";
+ 					}
+ 					htmlString += "</div><br><br><br><br><br><br><br>";
+ 					htmlString += "<h3 style=text-align:center>Company's Description</h3><br>";
+ 					htmlString += "<p style=text-align:left> Start Date: " + startDate + "</p><br>";
+ 					htmlString += "<p style=text-align:left> Start Date: " + description + "</p><br></div>";
+					document.getElementById("searchMode").innerHTML = htmlString;
+				}
+			}
+			xhttp.send();
+			return false;
+       	};
+     </script>
+</head>
+<body>
+	<ul>
+		<li><a href="afterLogHome.html">SalStock</a></li>
+		<li style="float: right"><a href="index.html">Logout</a></li>
+		<li style="float: right"><a href="Portfolio.html">Portfolio</a></li>
+		<li style="float: right"><a href="Favorites.html">Favorites</a></li>
+		<li style="float: right"><a class="active" href="afterLogHome.html">Home/Search</a></li>
+	</ul>
+	<div id=searchMode>
+	<br><br/><br><br/>
+	<h1>STOCK SEARCH</h1>
+	<form name = "search" action= "afterLogHome" method="get" onSubmit="return showStock()">
+		<input type="text" id="ticker" name="ticker"
+			aria-label="Search through site content">
+		<button type="submit" name="search">
+			<svg viewBox="0 0 1024 1024">
+				<path class="path1"
+					d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+		</button>
+	</form>
+	</div>
+</body>
+</html>
